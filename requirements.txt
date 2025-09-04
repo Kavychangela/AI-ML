@@ -1,2 +1,3 @@
+#Pip install -r requirements.txt
 scikit-learn
 numpy
