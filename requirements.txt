@@ -7,3 +7,4 @@ requests
 openpyxl
 matplotlib
 seaborn
+bs4
