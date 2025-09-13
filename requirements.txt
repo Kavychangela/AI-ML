@@ -8,3 +8,4 @@ openpyxl
 matplotlib
 seaborn
 bs4
+flask
