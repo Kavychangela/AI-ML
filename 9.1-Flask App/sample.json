@@ -1,3 +1,4 @@
-{"name":"New Item", "description":"This is a new item"}
-{"name":"Updated Item", "description":"This item has been updated"},
-{"name":"Updated Items", "description":"This item has been updateds"}
+[
+  {"name":"New Item", "description":"This is a new item"},
+  {"name":"Updated Item", "description":"This item has been updated"}
+]c
