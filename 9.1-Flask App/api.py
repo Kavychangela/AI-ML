@@ -15,7 +15,7 @@ def home():
     return "Welcome To The Sample To Do List App"
 
 
-## Get: Retrieve all the items 
+## Get: Retrieve all the itemss
 @app.route('/items', methods=['GET'])
 def get_items():
     return jsonify(items)
