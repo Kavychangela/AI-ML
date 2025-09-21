@@ -26,7 +26,11 @@ data={
 }
 
 df=pd.DataFrame(data)
+<<<<<<< HEAD
 df.to_csv("sampledata.csv") 
+=======
+df.to_csv("sampledata.csv")
+>>>>>>> fa93a4ee70daa1e776e7c3497c2d3f728e68a794
 st.write(df)
 
 uploaded_file=st.file_uploader("Choose a CSV file", type="csv")
