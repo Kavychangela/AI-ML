@@ -261,11 +261,17 @@
                         <i class="fas fa-bolt-lightning"></i>
                         <input type="text" name="ISI" placeholder="4.5" required>
                     </div>
-                    <div class="input-group">
-                        <label>Region</label>
-                        <i class="fas fa-map-pin"></i>
-                        <input type="text" name="Region" placeholder="Sidi-Bel" required>
-                    </div>
+                    <select name="Classes" required>
+                    <option value="" disabled selected>Select Fire Class</option>
+                    <option value="0">No Fire</option>
+                    <option value="1">Fire</option>
+                    </select>
+                    
+                    <select name="Region" required>
+                    <option value="" disabled selected>Select Region</option>
+                    <option value="0">Sidi-Bel</option>
+                    <option value="1">Bejaia</option>
+                    </select>
                 </div>
 
                 <button type="submit" class="predict-btn">

@@ -199,6 +199,37 @@
                 max-width: 300px;
             }
         }
+
+        /* === Prediction Form Styling (Added) === */
+    .prediction-form {
+        margin-top: 40px;
+        background: rgba(0,0,0,0.2);
+        padding: 30px;
+        border-radius: 15px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .prediction-form input,
+    .prediction-form select {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 8px;
+        border: none;
+        background: rgba(255,255,255,0.1);
+        color: white;
+    }
+
+    .prediction-form button {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: linear-gradient(to right, #ff9a00, #ff2c00);
+        border: none;
+        border-radius: 8px;
+        color: white;
+        cursor: pointer;
+    }
+
     </style>
 </head>
 <body>
@@ -252,15 +283,14 @@
         </div>
         
         <footer>
-            <p>Wildfire Risk Prediction System © 2025 | Protecting Forests and Communities</p>
-            <p style="margin-top: 8px;">Developed by Vaibhav Gaikwad</p>
+            <p>Wildfire Risk Prediction System © 2026 | Protecting Forests and Communities</p>
+            <p style="margin-top: 8px;">Developed by Kavy Changela</p>
         </footer>
     </div>
     
     <div class="fire-animation"></div>
     
     <script>
-        // Simple animation for the welcome page
         document.querySelector('.btn').addEventListener('mouseover', function() {
             this.querySelector('i').style.transform = 'scale(1.2)';
             this.querySelector('i').style.transition = 'transform 0.3s ease';
