@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATS Resume Checker</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/geist-font/1.0.0/fonts/geist-sans/style.min.css">
+
+<style>
+body{
+font-family:'Geist Sans',system-ui;
+margin:0;
+height:100vh;
+background:#f5f7fb;
+}
+
+/* chat box */
+#chat-container{
+position:fixed;
+bottom:20px;
+right:20px;
+width:350px;
+height:520px;
+background:#fff;
+border-radius:14px;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+display:none;
+flex-direction:column;
+overflow:hidden;
+}
+
+/* header */
+#chat-header{
+background:#854fff;
+color:white;
+padding:18px;
+font-weight:600;
+display:flex;
+justify-content:space-between;
+}
+
+/* body */
+#chat-body{
+flex:1;
+padding:15px;
+overflow-y:auto;
+background:#fafafa;
+}
+
+.msg{
+padding:10px 14px;
+border-radius:10px;
+margin-bottom:12px;
+font-size:14px;
+max-width:85%;
+}
+
+.user{
+background:#eee;
+margin-left:auto;
+}
+
+.bot{
+background:#854fff;
+color:white;
+}
+
+/* footer */
+#chat-footer{
+padding:12px;
+border-top:1px solid #eee;
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+#chat-footer input[type=text]{
+padding:10px;
+border-radius:8px;
+border:1px solid #ddd;
+outline:none;
+}
+
+#chat-footer input[type=file]{
+font-size:12px;
+}
+
+#send{
+background:#854fff;
+color:white;
+border:none;
+padding:10px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+}
+
+/* floating button */
+#open-chat{
+position:fixed;
+bottom:20px;
+right:20px;
+width:55px;
+height:55px;
+border-radius:50%;
+background:#854fff;
+color:white;
+border:none;
+font-size:22px;
+cursor:pointer;
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+</style>
+</head>
+
+<body>
+
+<button id="open-chat">💬</button>
+
+<div id="chat-container">
+
+<div id="chat-header">
+<span>ATS Checker</span>
+<span style="cursor:pointer" onclick="toggleChat()">✕</span>
+</div>
+
+<div id="chat-body">
+<div class="msg bot">Hi 👋 Upload your resume to get ATS score.</div>
+</div>
+
+<div id="chat-footer">
+<input type="file" id="file" accept=".pdf,.doc,.docx">
+<input type="text" id="message" placeholder="Type message (optional)">
+<button id="send">Send</button>
+</div>
+
+</div>
+<script>
+const WEBHOOK="https://n8n.srv1162532.hstgr.cloud/webhook/df9f5767-4996-4113-b896-4cf68723bec6";
+
+function toggleChat(){
+const box=document.getElementById("chat-container");
+const btn=document.getElementById("open-chat");
+box.style.display=box.style.display==="flex"?"none":"flex";
+btn.style.display=btn.style.display==="none"?"block":"none";
+}
+
+document.getElementById("open-chat").onclick=toggleChat;
+
+/* session id */
+function getSession(){
+let id=sessionStorage.getItem("session");
+if(!id){
+id="sess_"+Math.random().toString(36).slice(2);
+sessionStorage.setItem("session",id);
+}
+return id;
+}
+
+/* send message */
+document.getElementById("send").onclick=async()=>{
+
+const text=document.getElementById("message").value;
+const file=document.getElementById("file").files[0];
+if(!text && !file) return;
+
+const body=document.getElementById("chat-body");
+
+/* show user message */
+if(text){
+let el=document.createElement("div");
+el.className="msg user";
+el.innerText=text;
+body.appendChild(el);
+}
+
+/* loading bubble */
+let loading=document.createElement("div");
+loading.className="msg bot";
+loading.innerText="Analyzing resume...";
+body.appendChild(loading);
+body.scrollTop=body.scrollHeight;
+
+/* prepare form */
+const form=new FormData();
+form.append("sessionId",getSession());
+form.append("message",text);
+if(file) form.append("file",file);
+
+try{
+
+/* send request */
+const res = await fetch(WEBHOOK,{
+method:"POST",
+body:form
+});
+
+/* read as TEXT (important) */
+const replyText = await res.text();
+
+/* remove loading */
+loading.remove();
+
+/* show reply */
+let reply=document.createElement("div");
+reply.className="msg bot";
+reply.innerText=replyText;
+body.appendChild(reply);
+
+}catch(err){
+loading.innerText="Server error";
+}
+
+/* clear inputs */
+document.getElementById("message").value="";
+document.getElementById("file").value="";
+body.scrollTop=body.scrollHeight;
+};
+</script>
+
+</body>
+</html>
+
