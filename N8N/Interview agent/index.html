@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Interview Link Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Inter',sans-serif;
+  background: radial-gradient(circle at 20% 20%, #1d4ed8, transparent 40%),
+              radial-gradient(circle at 80% 80%, #9333ea, transparent 40%),
+              #0f172a;
+  color:white;
+}
+
+.card{
+  width:420px;
+  padding:40px;
+  border-radius:24px;
+  backdrop-filter: blur(18px);
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  box-shadow:0 25px 60px rgba(0,0,0,0.5);
+  text-align:center;
+  animation:fadeIn .7s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(30px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+h1{
+  margin:0 0 10px;
+  font-weight:700;
+  font-size:26px;
+  letter-spacing:.5px;
+}
+
+p{
+  margin:0 0 25px;
+  opacity:.7;
+}
+
+button{
+  width:100%;
+  padding:16px;
+  font-size:17px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  color:white;
+  cursor:pointer;
+  font-weight:600;
+  transition:.25s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
+
+button:disabled{
+  opacity:.6;
+  transform:none;
+  box-shadow:none;
+  cursor:not-allowed;
+}
+
+.loader{
+  margin:20px auto;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  border:3px solid transparent;
+  border-top:3px solid #fff;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.resultBox{
+  margin-top:25px;
+  padding:15px;
+  border-radius:14px;
+  background:white;
+  color:#111827;
+  font-size:14px;
+  word-break:break-all;
+  animation:fadeIn .5s ease;
+}
+
+.success{
+  margin-top:15px;
+  font-weight:600;
+  color:#4ade80;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+.smallBtn{
+  flex:1;
+  padding:12px;
+  font-size:14px;
+  border-radius:12px;
+}
+
+.copy{ background:#111827 }
+.open{ background:#059669 }
+
+.error{
+  margin-top:15px;
+  color:#f87171;
+  font-weight:500;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+<h1>Interview Generator</h1>
+<p>Create a shareable interview link instantly</p>
+
+<button id="btn">Generate Interview Link</button>
+<div id="status"></div>
+<div id="output"></div>
+</div>
+
+<script>
+const btn=document.getElementById("btn")
+const out=document.getElementById("output")
+const statusBox=document.getElementById("status")
+
+btn.onclick=async()=>{
+ btn.disabled=true
+ out.innerHTML=""
+ statusBox.innerHTML='<div class="loader"></div>'
+
+ try{
+  const res=await fetch(
+   "https://n8n.srv1162532.hstgr.cloud/webhook/ab4027de-c9d7-4dfa-99f3-8660b4159bdb",
+   {method:"POST",headers:{"Content-Type":"application/json"},body:"{}"}
+  )
+
+  const text=await res.text()
+  const data=JSON.parse(text)
+
+  const link=data.link || data["Interview Link"]
+  if(!link) throw new Error()
+
+  statusBox.innerHTML='<div class="success">✔ Link Generated Successfully</div>'
+
+  out.innerHTML=`
+   <div class="resultBox">${link}</div>
+   <div class="actions">
+     <button class="smallBtn copy" onclick="copyLink('${link}')">Copy</button>
+     <button class="smallBtn open" onclick="window.open('${link}')">Open</button>
+   </div>   
+  `
+ }
+ catch(e){
+  statusBox.innerHTML=""
+  out.innerHTML='<div class="error">Failed to generate link</div>'
+ }
+
+ btn.disabled=false
+}
+
+function copyLink(link){
+ navigator.clipboard.writeText(link)
+ alert("Link copied to clipboard")
+}
+</script>
+
+</body>
+</html>
