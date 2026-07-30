@@ -1,0 +1,12 @@
+#Pip install -r requirements.txt
+scikit-learn
+numpy
+pandas
+lxml
+requests
+openpyxl
+matplotlib
+seaborn
+bs4
+flask
+streamlit

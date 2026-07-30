@@ -1,0 +1,7 @@
+Passenger,Seatbelt,Age_Group,Day,Degree_of_Injury
+P1,Yes,18-25,Mon,2
+P2,No,26-40,Mon,5
+P3,Yes,18-25,Tue,1
+P4,Yes,41-60,Tue,3
+P5,No,26-40,Wed,4
+P6,Yes,60+,Wed,2
