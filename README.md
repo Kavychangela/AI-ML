@@ -1,2 +1,0 @@
-"# ForestFire-Prediction" 
-"# ForestFire-Prediction" 
